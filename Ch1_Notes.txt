@@ -1,0 +1,12 @@
+
+* Varaiable names : CamelCase.
+
+* array.pop() - returns the popped element.
+* array.push() - returns the new length of the array.
+
+* str.repeat(num) - repeats the string the specified number of times.
+
+* A truthy value is a value that is considered true when evaluated as a boolean.
+* A falsy value is the opposite - a value considered false when evaluated as a boolean.
+
+* The strict equality operator === is used to check if two values are equal and share the same type.
