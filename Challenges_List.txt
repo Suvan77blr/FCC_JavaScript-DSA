@@ -1,0 +1,5 @@
+
+List of challenges :-
+
+1. Pyramid Generator.
+2. GradeBookApp - to review the basic JS concepts.
