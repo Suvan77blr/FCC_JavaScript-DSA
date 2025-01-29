@@ -1,4 +1,7 @@
 
+// 290125
+// Challenge 2 : GradeBookApp.
+
 function getAverage(scores) {
     let sum = 0;
     for(const val of scores)

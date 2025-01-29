@@ -1,3 +1,7 @@
+
+// 280125
+// Challenge 1 : 
+
 const character = '#';
 const count = 8;
 // const rows = [];
