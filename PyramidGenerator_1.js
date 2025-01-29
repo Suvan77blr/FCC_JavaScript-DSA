@@ -7,17 +7,22 @@ const padRow = (rowNumber, rowCount) => {
 }
 
 
-let printWithFor = () => {
+const arrayToString = (rowsArr) => {
+    let result = "";
+    for( const row of rowsArr)
+    {
+        result = result + row + "\n";
+    }
+    return result;
+}
+
+let normalPrintWithFor = () => {
     const rows = [];
     for (let i = 0; i < count; i++) {
         rows.push(padRow(i+1, count));
     }
 
-    let result = "";
-    for( const row of rows)
-    {
-        result = result + row + "\n";
-    }
+    let result = arrayToString(rows);
     console.log(result);
 }
 
@@ -27,13 +32,34 @@ let printWithWhile = () => {
     {
         rows.push(padRow(rows.length+1, count));
     }
-    let result = "";
-    for( const row of rows)
-    {
-        result = result + row + "\n";
-    }
+    let result = arrayToString(rows);
     console.log(result);
 }
 
-// printWithFor();
-printWithWhile();
+const revPrintWithFor = () => {
+    const rows = [];
+    for(let i=1; i<=count; i++)
+    {
+        rows.unshift(padRow(i, count));
+    }
+    let result = arrayToString(rows);
+    console.log(result);
+}
+
+const printWithFor = () => {
+    let inverted = false;
+    if(inverted)
+    {
+        revPrintWithFor();
+    }
+    else
+    {
+        normalPrintWithFor();
+    }
+}
+
+// printWithWhile();
+// revPrintWithFor();
+// normalPrintWithFor();
+
+printWithFor();

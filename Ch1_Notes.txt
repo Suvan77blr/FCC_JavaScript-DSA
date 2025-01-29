@@ -2,7 +2,9 @@
 * Varaiable names : CamelCase.
 
 * array.pop() - returns the popped element.
-* array.push() - returns the new length of the array.
+* array.push() - adds element to the end of the array and returns the new length of the array.
+* array.unshift() - adds element to the begining of the array and returns the new length.
+* array.shift() - removes element from the begining of the array and also returns the 'shifted' element.
 
 * str.repeat(num) - repeats the string the specified number of times.
 
