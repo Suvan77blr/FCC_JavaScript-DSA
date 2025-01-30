@@ -1,6 +1,6 @@
 
 // 280125
-// Challenge 1 : 
+// Challenge 1 : Pyramid Generator.
 
 const character = '#';
 const count = 8;
