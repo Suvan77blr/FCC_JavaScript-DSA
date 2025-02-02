@@ -3,3 +3,14 @@
 
 * document.querySelector("CSS-Selector") - method for finding specific elements in your HTML.
     - Takes a CSS Selector as arg and then returns the first element which matches that selector.
+
+* Background button transition :-
+
+    button {
+        ...
+        background-image: linear-gradient(var(--btn-gradient1), var(--btn-gradient2));
+        ...
+    }
+
+* object.onclick = to determine the action to occur when that object is 'clicked'.
+* object.innerText = controls the text that appears in an HTML element.

@@ -1,7 +1,11 @@
 :root{
     --primary-color: #0a0a23;
     --secondary-color: #ffffff;
-    --other-color1: #c70d0d;}
+    --btn-bg-color: #feac32;
+    --other-color1: #c70d0d;
+    --btn-gradient1: #fecc4c;
+    --btn-gradient2: #ffac33;
+}
 
 body{
     background-color: var(--primary-color);
@@ -41,4 +45,13 @@ body{
 
 .stat {
     padding-right: 10px;
+}
+
+button {
+    cursor: pointer;
+    color: var(--primary-color);
+    /* background-color: #feac32; */
+    background-image: linear-gradient(var(--btn-gradient1), var(--btn-gradient2));
+    border: solid 3px var(--btn-bg-color);
+
 }
