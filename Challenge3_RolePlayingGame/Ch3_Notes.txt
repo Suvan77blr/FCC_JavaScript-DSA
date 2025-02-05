@@ -14,3 +14,4 @@
 
 * object.onclick = to determine the action to occur when that object is 'clicked'.
 * object.innerText = controls the text that appears in an HTML element.
+* object.style = used to access the inline style of an element
