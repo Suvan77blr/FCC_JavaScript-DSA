@@ -24,13 +24,14 @@ const monsterHealthText = document.querySelector("#monsterHealth");
 // Function Definitions.
 // Function to update the buttons' text and action based on the current location.
 let update = (location) => {
+    monsterStats.style.display = 'none';
     button1.innerText = location["button text"][0];
     button2.innerText = location["button text"][1];
     button3.innerText = location["button text"][2];
     button1.onclick = location["button functions"][0];
     button2.onclick = location["button functions"][1];
     button3.onclick = location["button functions"][2];
-    text.innerText = location.text;
+    text.innerHTML = location.text;
 }
 
 let goTown = () => {
@@ -59,12 +60,13 @@ let buyHealth = () => {
         text.innerText = "You do not have enough gold to buy health.";
     }
 }
+
 let buyWeapon = () => {
-    console.log("Buying Weapon...");
     if(currentWeaponIndex < weapons.length-1)
     {
-            if(gold >= 30)
+        if(gold >= 30)
         {
+            console.log("Buying Weapon...");
             gold -= 30;
             currentWeaponIndex++;
             goldText.innerText = gold;
@@ -87,7 +89,7 @@ let buyWeapon = () => {
 }
 
 let sellWeapon = () => {
-    // console.log("Selling weapon...");
+    console.log("Selling weapon...");
     // Player shld not be able to sell their 'only' weapon. So .. 
     if(inventory.length > 1)
     {
@@ -112,35 +114,95 @@ let goFight = () => {
     // monsterHealth = myMonsters[fighting].health;
 
     monsterStats.style.display = "block";
+    monsterName.innerText = monsters[fighting].name;
+    monsterHealthText.innerText = monsterHealth;
 }
-let attack = () => {
 
+let attack = () => {
+    text.innerText = `The ${monsters[fighting].name} attacks!.`;
+    text.innerText += "\nYou attack it with your " + weapons[currentWeaponIndex].name + ".";
+
+    // Modify the Healths.
+    health -= monsters[fighting].level;
+    monsterHealth -= weapons[currentWeaponIndex].power + Math.floor(Math.random() * xp) + 1;    // Adding a factor of Player's XP to the damage done.
+
+    // Writing the healths.
+    healthText.innerText = health;
+    monsterHealthText.innerText = monsterHealth;
+
+    // Checking for next action based on healths.
+    if( health <= 0) {
+        lose();
+    }
+    else if (monsterHealth <= 0) {
+        if(fighting === 2){ winGame(); }
+        else { defeatMonster(); }
+    }
 }
 
 let dodge = () => {
-
+    text.innerHTML = `You dodge the attack from the ${monsters[fighting].name}!`;
 }
 
 let fightSlime = () => {
-    // console.log("Fighting Slime...");
+    console.log("Fighting Slime...");
     fighting = 0;
     // fighting = "slime";
     goFight();
 }
 
 let fightBeast = () => {
-
-    // console.log("Fighting Beast...");
+    console.log("Fighting Beast...");
     fighting = 1;
     // fighting = "fanged beast";
     goFight();
 }
 
 let fightDragon = function() {
-    // console.log("Fighting Dragon");
+    console.log("Fighting Dragon...");
     fighting = 2;
     // fighting = "dragon";
     goFight();
+}
+
+let defeatMonster = () => {
+    console.log("'defeatMonster' Function ...");
+    gold += Math.floor(monsters[fighting].level * 6.7);
+    xp += monsters[fighting].level;
+
+    goldText.innerText = gold;
+    xpText.innerText = xp;
+
+    update(locations[4]);
+    // update(myLocations["kill monster"]);
+};
+
+let winGame = () => {
+    console.log("'winGame' Function ...");
+    update(locations[6]);
+    // update(myLocations["win"]);
+};
+
+let lose = () => {
+    // Logic to be defined yet ...
+    console.log("'Lose' Function ...");
+
+    update(locations[5]);
+    // update(myLocations["lose"]);
+};
+
+let restart = () => {
+    xp = 0;
+    health = 100;
+    gold = 50;
+    currentWeaponIndex = 0;
+    inventory = ["stick"];
+  
+    xpText.innerText = xp;
+    healthText.innerText = health;
+    goldText.innerText = gold;
+  
+    goTown();
 }
 
 // Initializing the buttons.
@@ -185,6 +247,24 @@ const locations = [
         "button text": ["Attack", "Dodge", "Run"],
         "button functions": [attack, dodge, goTown],
         "text": "You are fighting a monster."
+    },
+    {
+        "name": "kill monster",
+        "button text": ["Go to town square", "Go to town square", "Go to town square"],
+        "button functions": [goTown, goTown, goTown],
+        "text": 'The monster screams "Arg!" as it dies. You gain experience points and find gold.'
+    },
+    {
+        "name": "lose",
+        "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
+        "button functions": [restart, restart, restart],
+        "text": "You die. &#x2620;"
+    }, 
+    {
+        "name": "win",
+        "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
+        "button functions": [restart, restart, restart],
+        "text": "You defeat the dragon! YOU WIN THE GAME! &#x1F389;"
     }
 ];
 
@@ -228,6 +308,25 @@ const myLocations = {
         "button text": ["Attack", "Dodge", "Run"],
         "button functions": [attack, dodge, goTown],
         "text": "You are fighting a monster."
-    }
+    },
+    "kill monster" : {
+        "name": "kill monster",
+        "button text": ["Go to town square", "Go to town square", "Go to town square"],
+        "button functions": [goTown, goTown, goTown],
+        "text": 'The monster screams "Arg!" as it dies. You gain experience points and find gold.'
+    },
+    "lose" : {
+        "name": "lose",
+        "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
+        "button functions": [restart, restart, restart],
+        "text": "You die. &#x2620;"
+    },
+    "win" : {
+        "name": "win",
+        "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
+        "button functions": [restart, restart, restart],
+        "text": "You defeated the dragon! YOU WIN THE GAME! &#x1F389;"
+    }, 
+
 };
 // */
