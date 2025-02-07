@@ -123,8 +123,15 @@ let attack = () => {
     text.innerText += "\nYou attack it with your " + weapons[currentWeaponIndex].name + ".";
 
     // Modify the Healths.
-    health -= monsters[fighting].level;
-    monsterHealth -= weapons[currentWeaponIndex].power + Math.floor(Math.random() * xp) + 1;    // Adding a factor of Player's XP to the damage done.
+    // health -= monsters[fighting].level;
+    health -= getMonsterAttackValue(monsters[fighting].level);
+
+    if(isMonsterHit()) {
+        monsterHealth -= weapons[currentWeaponIndex].power + Math.floor(Math.random() * xp) + 1;    // Adding a factor of Player's XP to the damage done.
+    }
+    else {
+        text.innerText += " You miss.";
+    }
 
     // Writing the healths.
     healthText.innerText = health;
@@ -138,6 +145,25 @@ let attack = () => {
         if(fighting === 2){ winGame(); }
         else { defeatMonster(); }
     }
+
+    // Chance of breakage of the weapon. && Also ensure that the player's only weapon does not break.
+    if(Math.random <= .1  && inventory.length !== 1) {
+        text.innerText += ` Your ${inventory.pop()} breaks.`;
+        currentWeaponIndex--;
+    }
+}
+
+let isMonsterHit = () => {
+    // Player will hit 80% of the time & if his health is less than 20.
+    return Math.random() > .2 || health<20;
+}
+
+// Function to get a dynamic value for Monster's attack.
+let getMonsterAttackValue = (level) => {
+    // Setting monster's attack to 5x of its level and subtracting it by a random number between 0 - xp
+    const hit = (level * 5) - (Math.floor(Math.random() * xp));
+    console.log(hit);
+    return (hit>0) ? hit : 0;
 }
 
 let dodge = () => {
@@ -204,6 +230,9 @@ let restart = () => {
   
     goTown();
 }
+
+// Hidden Feature!
+// 158.
 
 // Initializing the buttons.
 button1.onclick = goStore;
