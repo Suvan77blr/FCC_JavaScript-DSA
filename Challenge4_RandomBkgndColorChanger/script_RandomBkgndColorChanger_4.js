@@ -1,4 +1,7 @@
-const defaultColor = "#110815";
+
+const defaultColor = "blue";
+
+const colorArray = ["red","green","blue","orange", "yellow","pink","aqua","brown","chartreuse" ];
 
 const darkColorsArr = [
     "#2C3E50",
@@ -18,11 +21,20 @@ let getRandomIndex = () => {
 }
 
 let changeBackgroundColor = () => {
-    const color = darkColorsArr[getRandomIndex()];
+    let randomIndex = getRandomIndex();
+
+    let color = "";
+    if(Math.random() >= 0.5) {
+        color = colorArray[randomIndex];
+    }
+    else {
+        color = darkColorsArr[randomIndex];
+    }
+
     console.log(color);
     
     body.style.backgroundColor = color;
-    colorDisplayText.innerText = color;    
+    colorDisplayText.innerText = color.toUpperCase();    
 }
 
 const body = document.querySelector("body");
