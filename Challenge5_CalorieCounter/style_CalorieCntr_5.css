@@ -1,0 +1,71 @@
+:root {
+    --body-bgcolor: #1b1b32; /* --fcc-blue */
+    --content-color: #f5f6f7;
+    --btn-color: #fecc4c;
+    --btn-bdr-color: #feac32;
+}
+body {
+    background-color: var(--body-bgcolor);
+    font-family: 'Arial', 'Helvetica', 'sans-serif';
+    font-size: 18px;
+    color: var(--content-color);
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 680px;
+}
+
+h1, 
+.container,
+.output {
+    margin: 20px auto;
+}
+
+label, legend {
+    font-weight: bold;
+}
+
+button {
+    cursor: pointer;
+    background-color: var(--btn-color);
+    border: var(--btn-bdr-color) 2px solid;
+}
+
+button,
+input, 
+select {
+    min-height: 24px;
+    color: var(--body-bgcolor);
+}
+
+fieldset,
+label,
+button, 
+input,
+select {
+    margin-bottom: 10px;
+}
+
+.output {
+    border: 2px solid var(--content-color);
+    text-align: center;
+    padding: 10px;
+}
+
+.hide {
+    display: none;
+}
+
+.output span {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* surplus, deficit */
+/* input-container */
+
