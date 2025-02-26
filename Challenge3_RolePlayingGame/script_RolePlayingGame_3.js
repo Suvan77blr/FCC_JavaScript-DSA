@@ -1,12 +1,39 @@
-let xp = 0;
-let health = 100;
-let gold = 50;
+
+// 260525 (Completed -> w/ Documentation)
+/*
+
+    Variables List :
+        - xp, health, gold.
+        - currentWeaponIndex, inventory.
+        - fighting(monster_fighting - index/key), monsterHealth.
+        - rndmNum1, rndmNum2 = for the special feature.
+        
+    List of Functions :
+        - update(location)
+        - goTown()
+        - goStore() : buyHealth(), buyWeapon(), sellWeapon().
+        - goCave() : fightSlime(), fightBeast(), fightDragon().
+        - goFight() : attack(), isMonsterHit(), getMonsterAttackValue(), dodge(), defeatMonster(), winGame(), lose(), restart().
+        - easterEgg() : pick(), pickTwo(), pickEight().
+
+
+    Array of Objects :-
+        - weapons : {name, power}
+        - monsters : {name, level, health}
+        - locations : {name, 'button text', 'button functions', text}
+
+    Object of Objects :- 
+        Same struct as Array of Objects, except the 'name' is used as the key to id the each object's value.
+*/
+
+let xp = 0, health = 100, gold = 50;
 let currentWeaponIndex = 0;
 let fighting;
 
 let monsterHealth;
 let inventory = ["stick"];
 
+let rndmNum1=-1, rndmNum2=-1;
 // Element references.
 const button1 = document.querySelector("#button1");
 const button2 = document.querySelector("#button2");
@@ -50,14 +77,16 @@ let goCave = function() {
 
 let buyHealth = () => {
     if(gold >= 10)
-    {    console.log("Buying Health...");
+    {   
+        // console.log("Buying Health...");
         gold -= 10;
         health += 10;
         goldText.innerText = gold;
         healthText.innerText = health;
+        text.innerText = "Health replenished by 10!";
     }
     else{
-        text.innerText = "You do not have enough gold to buy health.";
+        text.innerText = "Not have enough gold to buy health. :(";
     }
 }
 
@@ -66,30 +95,31 @@ let buyWeapon = () => {
     {
         if(gold >= 30)
         {
-            console.log("Buying Weapon...");
+            // console.log("Buying Weapon...");
             gold -= 30;
             currentWeaponIndex++;
             goldText.innerText = gold;
             
             let newWeapon = weapons[currentWeaponIndex].name;
-            text.innerText = `You now have a ${newWeapon}.`;
+            text.innerText = `You now have a ${newWeapon}!`;
 
             inventory.push(newWeapon);
-            text.innerText += " In your inventory you have: " + inventory;
+            text.innerText += " <br>In your inventory you have : " + inventory;
         }
         else {
-            text.innerText = "You do not have enough gold to buy a weapon.";
+            text.innerText = "Not enough gold to buy a new weapon. :(";
         }
     }
     else{
-        text.innerText = "You already have the most powerful weapon!";
+        text.innerText = "You already wield the most powerful weapon!";
         button2.innerText = "Sell weapon for 15 gold";
         button2.onclick = sellWeapon;
     }
 }
 
 let sellWeapon = () => {
-    console.log("Selling weapon...");
+    // console.log("Selling weapon...");
+    
     // Player shld not be able to sell their 'only' weapon. So .. 
     if(inventory.length > 1)
     {
@@ -120,13 +150,13 @@ let goFight = () => {
 
 let attack = () => {
     text.innerText = `The ${monsters[fighting].name} attacks!.`;
-    text.innerText += "\nYou attack it with your " + weapons[currentWeaponIndex].name + ".";
+    text.innerText += "<br>You attack it with your " + weapons[currentWeaponIndex].name + ".";
 
     // Modify the Healths.
     // health -= monsters[fighting].level;
     health -= getMonsterAttackValue(monsters[fighting].level);
 
-    if(isMonsterHit()) {
+    if(isMonsterHit()) {        // Hits 80% of the time & for sure if Health is less than 20.
         monsterHealth -= weapons[currentWeaponIndex].power + Math.floor(Math.random() * xp) + 1;    // Adding a factor of Player's XP to the damage done.
     }
     else {
@@ -162,7 +192,7 @@ let isMonsterHit = () => {
 let getMonsterAttackValue = (level) => {
     // Setting monster's attack to 5x of its level and subtracting it by a random number between 0 - xp
     const hit = (level * 5) - (Math.floor(Math.random() * xp));
-    console.log(hit);
+    // console.log(hit);
     return (hit>0) ? hit : 0;
 }
 
@@ -171,28 +201,28 @@ let dodge = () => {
 }
 
 let fightSlime = () => {
-    console.log("Fighting Slime...");
+    // console.log("Fighting Slime...");
     fighting = 0;
     // fighting = "slime";
     goFight();
 }
 
 let fightBeast = () => {
-    console.log("Fighting Beast...");
+    // console.log("Fighting Beast...");
     fighting = 1;
     // fighting = "fanged beast";
     goFight();
 }
 
 let fightDragon = function() {
-    console.log("Fighting Dragon...");
+    // console.log("Fighting Dragon...");
     fighting = 2;
     // fighting = "dragon";
     goFight();
 }
 
 let defeatMonster = () => {
-    console.log("'defeatMonster' Function ...");
+    // console.log("'defeatMonster' Function ...");
     gold += Math.floor(monsters[fighting].level * 6.7);
     xp += monsters[fighting].level;
 
@@ -204,14 +234,13 @@ let defeatMonster = () => {
 };
 
 let winGame = () => {
-    console.log("'winGame' Function ...");
+    // console.log("'winGame' Function ...");
     update(locations[6]);
     // update(myLocations["win"]);
 };
 
 let lose = () => {
-    // Logic to be defined yet ...
-    console.log("'Lose' Function ...");
+    // console.log("'Lose' Function ...");
 
     update(locations[5]);
     // update(myLocations["lose"]);
@@ -234,6 +263,7 @@ let restart = () => {
 // Hidden Feature!
 let easterEgg = () => {
     update(locations[7]);
+    pickRandomNums();
     // update(myLocations[""]);
 }
 
@@ -252,12 +282,12 @@ let pick = (guess) => {
 
     // If the guessed number exists in the random arrays.
     if (numbers.includes(guess)) {
-        text.innerText += "Right! You win 20 gold!";
+        text.innerText += "Right guess! You win 20 gold! :D";
         gold += 20;
         goldText.innerText = gold;
     }
     else {
-        text.innerText += "Wrong! You lose 10 health!";
+        text.innerText += "Wrong guess! You lose 10 health! :(";
         health -= 10;
         healthText.innerText = health;
 
@@ -265,149 +295,162 @@ let pick = (guess) => {
             lose();
         }
     }
+    pickRandomNums();
 }
 
-let pickTwo = () => {
-    pick(2);
+// Function to pick 2 Random numbers for the hidden feature.
+let pickRandomNums = () => {
+    rndmNum1 = Math.floor(Math.random() * 11);
+    
+    // Loop to ensure two numbers are not of the same value.
+    do {
+        rndmNum2 = Math.floor(Math.random() * 11);
+    } while (rndmNum1 == rndmNum2);
+
+    button1.innerText = rndmNum1;
+    button2.innerText = rndmNum2;
 }
 
-let pickEight = () => {
-    pick(8);
-}
+// Arrow functions .. to be called upon button click.
+let pickRndmNum1 = () => pick(rndmNum1);
+let pickRndmNum2 = () => pick(rndmNum2);
+
 
 // Initializing the buttons.
 button1.onclick = goStore;
 button2.onclick = goCave;
 button3.onclick = fightDragon;
 
+// Array of Objects definitions.
 const weapons = [
-    {name: "stick", power: 5},
-    {name: "dagger", power: 30},
-    {name: "claw hammer", power: 50},
-    {name: "sword", power: 100}
+    {name: "Stick", power: 5},
+    {name: "Dagger", power: 30},
+    {name: "Claw Hammer", power: 50},
+    {name: "Sword", power: 100}
 ];
 
 const monsters = [
-    {name: "slime", level: 2 , health: 15},
-    {name: "fanged beast", level: 8, health: 60},
-    {name: "dragon", level: 20, health: 300}
+    {name: "Slime", level: 2 , health: 15},
+    {name: "Fanged Beast", level: 8, health: 60},
+    {name: "Dragon", level: 20, health: 300}
 ];
 
 const locations = [
     {
-        "name": "town square",
-        "button text": ["Go to store", "Go to cave", "Fight dragon"],
+        "name": "Town Square",
+        "button text": ["Go to Store", "Go to Cave", "Fight Dragon"],
         "button functions": [goStore, goCave, fightDragon],
-        "text": "You are in the town square. You see a sign that says \"Store\"."
+        "text": "You are in the Town Square. You see a sign that says \"Store\"."
     },
     {
-        "name": "store",
-        "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to town square"],
+        "name": "Store",
+        "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to Town Square"],
         "button functions": [buyHealth, buyWeapon, goTown],
-        "text": "You enter the store."
+        "text": "You enter the Store."
     },
     {
-        "name": "cave",
-        "button text": ["Fight slime", "Fight fanged beast", "Go to town square"],
+        "name": "Cave",
+        "button text": ["Fight Slime", "Fight fanged Beast", "Go to Town Square"],
         "button functions": [fightSlime, fightBeast, goTown],
-        "text": "You enter the cave. You see some monsters."
+        "text": "Entering the Cave.... You see some gruesome monsters!"
     },
     {
-        "name": "fight",
+        "name": "Fight",
         "button text": ["Attack", "Dodge", "Run"],
         "button functions": [attack, dodge, goTown],
-        "text": "You are fighting a monster."
+        "text": "Draw your weapon! .. You are fighting a monster!!"
     },
     {
         "name": "kill monster",
-        "button text": ["Go to town square", "Go to town square", "Go to town square"],
+        "button text": ["Go to Town Square", "Go to Town Square", "Go to Town Square"],
         "button functions": [goTown, goTown, easterEgg],
-        "text": 'The monster screams "Arg!" as it dies. You gain experience points and find gold.'
+        "text": 'The monster screams "Arg!" as its breath fades, leaving a deafening silence behind.. as victory approaches you! <br>You gain experience points and find gold... Splendid!'
     },
     {
         "name": "lose",
         "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
         "button functions": [restart, restart, restart],
-        "text": "You die. &#x2620;"
+        "text": "Oh no... you die. &#x2620;"
     }, 
     {
         "name": "win",
         "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
         "button functions": [restart, restart, restart],
-        "text": "You defeat the dragon! YOU WIN THE GAME! &#x1F389;"
+        "text": `You defeat the Dragon!<br><br>"Victory Forged in Battle, Legends Etched in Eternity." <br><br>May your greatness echo the entire land .. O great warrior!<br><br>YOU WIN THE GAME .. Hurray!! &#x1F389;`
     },
     {
         "name" : "easter egg",
-        "button text" : ["2", "8", "Go to town square?"],
-        "button functions" : [pickTwo, pickEight, goTown],
-        "text" : "You find a secret game. Pick a number above. Ten numbers will be randomly chosen between 0 and 10. If the number you choose matches one of the random numbers, you win!"
+        "button text" : ["rndmNum1", "rndmNum2", "Go to Town Square?"],
+        "button functions" : [pickRndmNum1, pickRndmNum2, goTown],
+        "text" : "Knock knock... <br>You found a secret game! .. enjoy this until you are ready to continue on your mission!<br><br>Pick a number above. <br>Ten numbers will be randomly chosen between 0 and 10. <br>If the number you choose matches one of the choosen numbers, you win!"
     }
 ];
 
-/*
-// MyVersion : Object-based access.
+/* 
+// MyVersion : Object-based access => Object of Objects.
+// Needs proper testing if this method is employed.
 
 const myWeapons = {
-  "stick" : {name: "stick", power: 5},
-  "dagger" : {name: "dagger", power: 30},
-  "claw hammer" : {name: "claw hammer", power: 50},
-  "sword" : {name: "sword", power: 100}
+  "stick" : {name: "Stick", power: 5},
+  "dagger" : {name: "Dagger", power: 30},
+  "claw hammer" : {name: "Claw Hammer", power: 50},
+  "sword" : {name: "Sword", power: 100}
 };
 
 const myMonsters = {
-    "slime" : {name: "slime", level: 2 , health: 15},
-    "fanged beast" : {name: "fanged beast", level: 8, health: 60},
-    "dragon" : {name: "dragon", level: 20, health: 300}
+    "slime" : {name: "Slime", level: 2 , health: 15},
+    "fanged beast" : {name: "Fanged Beast", level: 8, health: 60},
+    "dragon" : {name: "Dragon", level: 20, health: 300}
 };
 
 const myLocations = {
     "town square" : {
-        "name": "town square",
-        "button text": ["Go to store", "Go to cave", "Fight dragon"],
+        "name": "Town Square",
+        "button text": ["Go to Store", "Go to Cave", "Fight Dragon"],
         "button functions": [goStore, goCave, fightDragon],
-        text: "You are in the town square. You see a sign that says \"Store\"."
+        "text": "You are in the Town Square. You see a sign that says \"Store\"."
     },
     "store" : {
-        "name": "store",
-        "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to town square"],
+        "name": "Store",
+        "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to Town Square"],
         "button functions": [buyHealth, buyWeapon, goTown],
-        text: "You enter the store."
+        "text": "You enter the Store."
     },
     "cave" : {
-        "name": "cave",
-        "button text": ["Fight slime", "Fight fanged beast", "Go to town square"],
+        "name": "Cave",
+        "button text": ["Fight Slime", "Fight fanged Beast", "Go to Town Square"],
         "button functions": [fightSlime, fightBeast, goTown],
-        text: "You enter the cave. You see some monsters."
+        "text": "Entering the Cave.... You see some gruesome monsters!"
     },
     "fight" : {
         "name": "fight",
         "button text": ["Attack", "Dodge", "Run"],
         "button functions": [attack, dodge, goTown],
-        "text": "You are fighting a monster."
+        "text": "Draw your weapon! .. You are fighting a monster!!"
     },
     "kill monster" : {
         "name": "kill monster",
-        "button text": ["Go to town square", "Go to town square", "Go to town square"],
+        "button text": ["Go to Town Square", "Go to Town Square", "Go to Town Square"],
         "button functions": [goTown, goTown, easterEgg],
-        "text": 'The monster screams "Arg!" as it dies. You gain experience points and find gold.'
+        "text": 'The monster screams "Arg!" as its breath fades, leaving a deafening silence behind.. as victory approaches you! <br>You gain experience points and find gold... Splendid!'
     },
     "lose" : {
         "name": "lose",
         "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
         "button functions": [restart, restart, restart],
-        "text": "You die. &#x2620;"
+        "text": "Oh no... you die. &#x2620;"
     },
     "win" : {
         "name": "win",
         "button text": ["REPLAY?", "REPLAY?", "REPLAY?",],
         "button functions": [restart, restart, restart],
-        "text": "You defeated the dragon! YOU WIN THE GAME! &#x1F389;"
+        "text": `You defeat the Dragon!<br><br>"Victory Forged in Battle, Legends Etched in Eternity." <br><br>May your greatness echo the entire land .. O great warrior!<br><br>YOU WIN THE GAME .. Hurray!! &#x1F389;`
     }, 
     "easter egg" : {
         "name" : "easter egg",
-        "button text" : ["2", "8", "Go to town square?"],
-        "button functions" : [pickTwo, pickEight, goTown],
-        "text" : "You find a secret game. Pick a number above. Ten numbers will be randomly chosen between 0 and 10. If the number you choose matches one of the random numbers, you win!"
+        "button text" : ["rndmNum1", "rndmNum2", "Go to Town Square?"],
+        "button functions" : [pickRndmNum1, pickRndmNum2, goTown],
+        "text" : "Knock knock... <br>You found a secret game! .. enjoy this until you are ready to continue on your mission!<br><br>Pick a number above. <br>Ten numbers will be randomly chosen between 0 and 10. <br>If the number you choose matches one of the choosen numbers, you win!"
     }
 };
 // */
