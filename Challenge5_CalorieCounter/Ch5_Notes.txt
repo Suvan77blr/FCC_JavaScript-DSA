@@ -1,0 +1,52 @@
+
+
+* Regex : 
+    let regexVar = /pattern/;
+
+* [..] - character class.
+
+* Flags are used to alter the pattern matching behavior. 
+    They are added after closing the '/'
+    - 'g' = tells pattern to continue looking even after finding a match.   => /pattern/g;
+    - 'i' = ignore the case of the pattern.
+
+* "string".replace() - method enabling us to replace characters in a string w/ another string.
+    - the function will return a new string with the replaced chars => since strs are immutable.
+    |S| : "string".replace(target_str, new_str);
+    - here the target_str can be a regex as well.
+
+* "string".match() - function to find the match of a string, can be done using regex.
+    |S| : "string".matdh(regex);
+
+    Output : 
+    i) When a match is found : {matched_value, index, input_pattern, groups}
+        > matched_value - pattern which matched in the specified regex.
+        > index - the index of the matched value in the string.
+        > input - the original string which was matched.
+        > groups - the matched groups.
+
+    ii) When a match is not found : null
+
+
+
+* document.querySelectorAll() - returns a NodeList of all the elements which match the specified selector.
+    NodeList - an array-like Object allowing access to its elements by a bracket-notation.
+
+
+* object.insertAdjacentHTML("beforeend", HTMLString)
+    - 1st to specify the position of the inserted element.
+    - 2nd the string w/ the HTML to be appended.
+
+< const HTMLElement = document.querySelector(selector); >
+* HTMLElement.classList.remove('hide');
+    - Every HTML will have a 'classList' property.
+    - '.remove(str)' : it removes the class represented by the 'str' from the element.
+* HTMLElement classList.add('hide');
+    - '.add(str)' : it will add the class represented by 'str' to the element.
+
+* const elementsArray = Array.from(document.querySelectorAll(element-selector));
+    - .querySelectorAll() : will return a NodeList, which is not exactly an array.
+    - 'Array' object has a method '.from()' which accepts an array-like objects and returns an array.
+    - Useful when we want to access specific array methods.
+
+* 'innerText' VS 'innerHTML - former will not render HTML elements but will display the tags and its content as raw-text.

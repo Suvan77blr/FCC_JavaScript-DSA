@@ -5,3 +5,4 @@ List of challenges :-
 2. GradeBookApp - to review the basic JS concepts.
 3. RPG Dragon Slayer - introduces DOM manipulation techniques and using objects.
 4. Random Background Color Changer.
+5. Calorie Counter - EventListener, Regex, Template Literals.
