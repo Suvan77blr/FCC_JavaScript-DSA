@@ -6,3 +6,4 @@ List of challenges :-
 3. RPG Dragon Slayer - introduces DOM manipulation techniques and using objects.
 4. Random Background Color Changer.
 5. Calorie Counter - EventListener, Regex, Template Literals.
+6. RPS Game - EventListeners, functions and callbacks.

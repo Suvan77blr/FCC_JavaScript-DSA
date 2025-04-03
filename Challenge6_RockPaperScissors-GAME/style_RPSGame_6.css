@@ -1,19 +1,18 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root{
     --bg-color: #020969;
     --white: #ffffff;
     --very-dark-blue: #0a0a23;
     --yellow: #f1be32;
     --golden-yellow: #feac32;
-}
-
-*,
-*::before,
-*::after
-{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+}    
 
 body{
     background-color: var(--bg-color);

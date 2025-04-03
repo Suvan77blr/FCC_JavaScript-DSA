@@ -1,0 +1,14 @@
+
+* Key point in event-listener definition : 
+    a)  rockBtn.addEventListener('click', showResults("Rock");
+            - Here the function executes immediately, when the script runs, as the return value of that function gets assigned to the event-listener, when the script executes.
+            - Reason : function itself is being called, instead of being passed as a reference.
+    
+    b)  rockBtn.addEventListener('click', function() {
+            showResults("Rock")
+        });
+            - Here the function is being passed as a reference. 
+            - Hence acts as an anonymous callback function & inner-function gets triggered (called) only when the 'click' event occurs.
+
+    Alternative with arrow function : 
+    rockBtn.addEventListener('click', () => showResults("Rock"));
